@@ -87,28 +87,18 @@ def key_expansion_two(key):
             temp = [temp[j] ^ Rcon[(i//Nk)-1][j] for j in range(4)]
         key_schedule.append([key_schedule[i-Nk][j] ^ temp[j] for j in range(4)])
     key_schedule = [item for sublist in key_schedule for item in sublist]
-    print(is_duplicate(key_schedule))
-    key_schedule = unique_list(key_schedule)
-    print(len(key_schedule))
-    print(key_schedule)
     for i in range(0,len(key_schedule), 16):
-        newList.append(key_schedule[i:i+16])
+        new = key_schedule[i:i+16]
+        newList.append(unique_list(new))
     return newList
 
 def numbers_different_from_each_other(sum):
     while not (len(set(str(sum))) == len(str(sum))): #For the numbers to be different from each other.
         sum += 1
     return sum
-'''
+
 key = generate_key()
 newKey = key_expansion(key)
 newKey = key_expansion_two(newKey)
 print(len(newKey))
 print(newKey)
-'''
-key = generate_key()
-key = list(key)
-print(key)
-toplam = sum(key)
-print("Listenin toplamı:", toplam)
-print(numbers_different_from_each_other(toplam))
