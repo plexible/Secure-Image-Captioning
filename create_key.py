@@ -1,6 +1,6 @@
 from collections import Counter
 from cryptography.fernet import Fernet
-import base64
+import numpy as np
 
 s_box = [
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -54,9 +54,14 @@ def unique_list(lst):
         seen.add(item)
         
     return lst
-def key_expansion(generated_key):
+
+def generate_key():
+    fernet_key = Fernet.generate_key()
+    aes_key_256_bits = fernet_key[:16]
+    return aes_key_256_bits    
+
+def generate_new_key(generated_key):
     key = list(generated_key)
-    print(key)
     newKey = [key]
     key = rot_word(key)
     while len(newKey) < 16:
@@ -65,15 +70,9 @@ def key_expansion(generated_key):
     newKey = newKey[:16]
     newKey = [item for sublist in newKey for item in sublist][:16]
     newKey = unique_list(newKey)
-    return newKey
-            
-def generate_key():
-    fernet_key = Fernet.generate_key()
-    aes_key_256_bits = fernet_key[:16]
-    return aes_key_256_bits            
+    return newKey        
 
-
-def key_expansion_two(key):
+def key_expansion(key):
     newList = []
     key_schedule = [key[i:i+4] for i in range(0, len(key), 4)]
     Nk = len(key) // 4
@@ -97,8 +96,71 @@ def numbers_different_from_each_other(sum):
         sum += 1
     return sum
 
-key = generate_key()
-newKey = key_expansion(key)
-newKey = key_expansion_two(newKey)
-print(len(newKey))
-print(newKey)
+def embedding_key(key_value):
+    newKey = generate_new_key(key_value)
+    newKey = key_expansion(newKey)
+    return newKey
+
+def find_quarters(img, height, width):
+    quarters = []
+    rng1 = 3
+    rng2 = 3
+    for i in range(rng1):
+        for j in range(rng2):
+            quarter = img[i * height // rng1:(i + 1) * height // rng1, j * width // rng2:(j + 1) * width // rng2].flatten()
+            quarters.append(quarter)
+    return quarters
+
+
+def find_new_index_value(binary, index):
+    binary_index = bin(index)
+    binary_index_len = len(binary_index)
+    if binary_index_len > 0:
+        son_bit = int(binary_index[-1])
+        if son_bit == binary:
+            print(binary_index)
+            return index
+        new_binary = binary_index[:-1] + binary
+        new_binary = int(new_binary, 2)
+        return new_binary
+    
+def find_index_value(index):
+    binary_index = bin(index)
+    binary_index_len = len(binary_index)
+    if binary_index_len > 0:
+        son_bit = int(binary_index[-1])
+        return str(son_bit)
+    
+def create_new_quarters(newKey, quarters, birlesik_binary):
+    for i in range(0,10):
+        if(i == len(newKey)):
+            break
+        for binary ,k in zip(birlesik_binary[i], newKey[i]):
+            quarters[i][k] = find_new_index_value(binary,  quarters[i][k])
+    return quarters
+
+def extract_key_from_image(newKey, quarters):
+    new_string = []
+    for i in range(0,10):
+        str = ""
+        if(i == len(newKey)):
+            break
+        for k in newKey[i]:
+            str += find_index_value(quarters[i][k])
+        new_string.append(str)
+    return new_string
+            
+def create_new_image(img, height, width, quarters):
+    for i in range(3):
+        for j in range(3):
+            quarter_height = (i + 1) * height // 3 - i * height // 3
+            quarter_width = (j + 1) * width // 3 - j * width // 3
+            img[i * height // 3:(i + 1) * height // 3, j * width // 3:(j + 1) * width // 3] = \
+            quarters[i * 3 + j].reshape((quarter_height, quarter_width, 3))
+    return img    
+  
+def embedding_key(key_value):
+    newKey = generate_new_key(key_value)
+    newKey = key_expansion(newKey)
+    return newKey
+        
