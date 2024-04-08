@@ -90,77 +90,15 @@ def key_expansion(key):
         new = key_schedule[i:i+16]
         newList.append(unique_list(new))
     return newList
-
-def numbers_different_from_each_other(sum):
-    while not (len(set(str(sum))) == len(str(sum))): #For the numbers to be different from each other.
-        sum += 1
-    return sum
-
-def embedding_key(key_value):
-    newKey = generate_new_key(key_value)
-    newKey = key_expansion(newKey)
-    return newKey
-
-def find_quarters(img, height, width):
-    quarters = []
-    rng1 = 3
-    rng2 = 3
-    for i in range(rng1):
-        for j in range(rng2):
-            quarter = img[i * height // rng1:(i + 1) * height // rng1, j * width // rng2:(j + 1) * width // rng2].flatten()
-            quarters.append(quarter)
-    return quarters
-
-
-def find_new_index_value(binary, index):
-    binary_index = bin(index)
-    binary_index_len = len(binary_index)
-    if binary_index_len > 0:
-        son_bit = int(binary_index[-1])
-        if son_bit == binary:
-            print(binary_index)
-            return index
-        new_binary = binary_index[:-1] + binary
-        new_binary = int(new_binary, 2)
-        return new_binary
-    
-def find_index_value(index):
-    binary_index = bin(index)
-    binary_index_len = len(binary_index)
-    if binary_index_len > 0:
-        son_bit = int(binary_index[-1])
-        return str(son_bit)
-    
-def create_new_quarters(newKey, quarters, birlesik_binary):
-    for i in range(0,10):
-        if(i == len(newKey)):
-            break
-        for binary ,k in zip(birlesik_binary[i], newKey[i]):
-            quarters[i][k] = find_new_index_value(binary,  quarters[i][k])
-    return quarters
-
-def extract_key_from_image(newKey, quarters):
-    new_string = []
-    for i in range(0,10):
-        str = ""
-        if(i == len(newKey)):
-            break
-        for k in newKey[i]:
-            str += find_index_value(quarters[i][k])
-        new_string.append(str)
-    return new_string
-            
-def create_new_image(img, height, width, quarters):
-    for i in range(3):
-        for j in range(3):
-            quarter_height = (i + 1) * height // 3 - i * height // 3
-            quarter_width = (j + 1) * width // 3 - j * width // 3
-            img[i * height // 3:(i + 1) * height // 3, j * width // 3:(j + 1) * width // 3] = \
-            quarters[i * 3 + j].reshape((quarter_height, quarter_width, 3))
-    return img    
   
 def embedding_key(key_value):
     newKey = generate_new_key(key_value)
     newKey = key_expansion(newKey)
     return newKey
         
+        
+        
+def numbers_different_from_each_other(sum):
+    while not (len(set(str(sum))) == len(str(sum))): #For the numbers to be different from each other.
+        sum += 1
+    return sum

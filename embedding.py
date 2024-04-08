@@ -34,12 +34,14 @@ def create_new_quarters(newKey, quarters, birlesik_binary):
     return quarters
 
 def create_new_image(img, height, width, quarters):
-    for i in range(3):
-        for j in range(3):
-            quarter_height = (i + 1) * height // 3 - i * height // 3
-            quarter_width = (j + 1) * width // 3 - j * width // 3
-            img[i * height // 3:(i + 1) * height // 3, j * width // 3:(j + 1) * width // 3] = \
-            quarters[i * 3 + j].reshape((quarter_height, quarter_width, 3))
+    rng1 = 3
+    rng2 = 3
+    for i in range(rng1):
+        for j in range(rng2):
+            quarter_height = (i + 1) * height // rng1 - i * height // rng1
+            quarter_width = (j + 1) * width // rng2 - j * width // rng2
+            img[i * height // rng1:(i + 1) * height // rng1, j * width // rng2:(j + 1) * width // rng2] = \
+            quarters[i * rng2 + j].reshape((quarter_height, quarter_width, 3))
     return img    
 
 
