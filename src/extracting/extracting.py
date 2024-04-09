@@ -1,5 +1,5 @@
 import cv2
-from embedding import find_quarters
+from embedding.embedding import find_quarters
 
 def find_index_value(index):
     binary_index = format(index, '08b')

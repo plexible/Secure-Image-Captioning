@@ -24,8 +24,4 @@ def show_n_generate(url, greedy = True, model = model_raw):
             top_k=5)
     generated_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
     print(generated_text)
-
-url1 = "manzara-fotografi-cekmek-724x394.webp"
-url2 = "embedded_img.png"
-show_n_generate(url1, greedy = True)
-show_n_generate(url2, greedy = True)
+    return generated_text

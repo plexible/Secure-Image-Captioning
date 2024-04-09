@@ -1,4 +1,4 @@
-from create_key import generate_new_key, key_expansion
+from key.create_key import generate_new_key, key_expansion
 import cv2
 
 def find_quarters(img, height, width):
