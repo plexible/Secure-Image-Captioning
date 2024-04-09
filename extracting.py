@@ -2,7 +2,7 @@ import cv2
 from embedding import find_quarters
 
 def find_index_value(index):
-    binary_index = bin(index)
+    binary_index = format(index, '08b')
     binary_index_len = len(binary_index)
     if binary_index_len > 0:
         son_bit = int(binary_index[-1])

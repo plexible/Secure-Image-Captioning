@@ -13,11 +13,11 @@ def find_quarters(img, height, width):
 
 
 def find_new_index_value(binary, index):
-    binary_index = bin(index)
+    binary_index = format(index, '08b')
     binary_index_len = len(binary_index)
     if binary_index_len > 0:
-        son_bit = int(binary_index[-1])
-        if son_bit == int(binary):
+        last_bit = int(binary_index[-1])
+        if last_bit == int(binary):
             return index
         new_binary = binary_index[:-1] + binary
         new_binary = int(new_binary, 2)
