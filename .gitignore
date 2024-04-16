@@ -8,7 +8,6 @@ src/embedding/__pycache__/__init__.cpython-312.pyc
 src/embedding/__pycache__/embedding.cpython-312.pyc
 src/extracting/__pycache__/__init__.cpython-312.pyc
 src/extracting/__pycache__/extracting.cpython-312.pyc
-src/main.py
 src/key/__pycache__/__init__.cpython-312.pyc
 src/key/__pycache__/create_key.cpython-312.pyc
 src/key/__pycache__/create_secret_key.cpython-312.pyc
