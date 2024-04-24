@@ -46,8 +46,6 @@ def create_new_image(img, height, width, quarters):
 
 def embedding(image_path, birlesik_binary, key):
     img = cv2.imread(image_path)
-    print("as")
-    print(type(img))
     height, width, z = img.shape
     quarters = find_quarters(img, height, width)
     new_quarters = create_new_quarters(key, quarters, birlesik_binary)
