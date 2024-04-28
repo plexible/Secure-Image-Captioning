@@ -66,8 +66,8 @@ def generate_new_key(generated_key):
         key = sub_word(key)
         key.append(key)
     key = key[:16]
-    newKey = unique_list(newKey)
-    return newKey        
+    key = unique_list(key)
+    return key        
 
 def key_expansion(key):
     newList = []
