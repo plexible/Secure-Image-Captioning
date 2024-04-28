@@ -23,7 +23,6 @@ def calculate_psnr(image1, image2):
     psnr = cv2.PSNR(image1, image2)
     return psnr
 
-
 # İki resmin Mean Squared Error'ını hesaplar
 def calculate_mse(image1, image2):
     mse = np.mean((image1 - image2) ** 2)

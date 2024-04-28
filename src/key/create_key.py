@@ -62,13 +62,10 @@ def generate_key():
 
 def generate_new_key(generated_key):
     key = list(generated_key)
-    newKey = [key]
-    key = rot_word(key)
-    while len(newKey) < 16:
+    while len(key) < 16:
         key = sub_word(key)
-        newKey.append(key)
-    newKey = newKey[:16]
-    newKey = [item for sublist in newKey for item in sublist][:16]
+        key.append(key)
+    key = key[:16]
     newKey = unique_list(newKey)
     return newKey        
 
