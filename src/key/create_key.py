@@ -70,20 +70,26 @@ def generate_new_key(generated_key):
     return key        
 
 def key_expansion(key):
-    newList = []
+    # Anahtar uzunluğunu belirle
+    key_len = len(key)
+    Nk = 4
+    Nr = 7
+
+    Nb = 4  # AES için sabit blok boyutu
     key_schedule = [key[i:i+4] for i in range(0, len(key), 4)]
-    Nk = len(key) // 4
-    Nb = 4
-    Nr = 7 
     for i in range(Nk, Nb * (Nr + 1)):
         temp = key_schedule[i-1]
         if i % Nk == 0:
             temp = rot_word(temp)
             temp = sub_word(temp)
             temp = [temp[j] ^ Rcon[(i//Nk)-1][j] for j in range(4)]
+        elif Nk > 6 and i % Nk == 4:
+            temp = sub_word(temp)
         key_schedule.append([key_schedule[i-Nk][j] ^ temp[j] for j in range(4)])
+
     key_schedule = [item for sublist in key_schedule for item in sublist]
-    for i in range(0,len(key_schedule), 16):
+    newList = []
+    for i in range(0, len(key_schedule), 16):
         new = key_schedule[i:i+16]
         newList.append(unique_list(new))
     return newList
@@ -97,3 +103,4 @@ def numbers_different_from_each_other(sum):
     while not (len(set(str(sum))) == len(str(sum))): #For the numbers to be different from each other.
         sum += 1
     return sum
+

@@ -23,5 +23,4 @@ def show_n_generate(url, greedy = True, model = model_raw):
             max_new_tokens = 50,
             top_k=5)
     generated_text = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-    print(generated_text)
     return generated_text
